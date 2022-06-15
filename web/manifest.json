@@ -1,11 +1,11 @@
 {
-    "name": "newbook_search",
-    "short_name": "newbook_search",
+    "name": "新刊検索アプリ",
+    "short_name": "新刊検索",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "New Book Search App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

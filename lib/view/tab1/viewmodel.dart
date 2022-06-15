@@ -37,9 +37,9 @@ class Tab1ViewModel extends ChangeNotifier {
       var headers = {
         'Authorization': 'Bearer ' + _idToken,
       };
-      var url = 'https://asia-northeast1-newbook-search.cloudfunctions.net/getNewBooks';
+      var url = 'https://us-central1-newbook-search.cloudfunctions.net/getNewBooks';
       var response = await http.get(Uri.parse(url), headers: headers).timeout(
-        const Duration(seconds: 5),
+        const Duration(seconds: 10),
         onTimeout: () {
           return http.Response('', html.HttpStatus.networkConnectTimeoutError);
         }

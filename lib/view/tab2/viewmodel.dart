@@ -38,9 +38,9 @@ class Tab2ViewModel extends ChangeNotifier {
       var headers = {
         'Authorization': 'Bearer ' + _idToken,
       };
-      var url = 'https://asia-northeast1-newbook-search.cloudfunctions.net/getKeywords';
+      var url = 'https://us-central1-newbook-search.cloudfunctions.net/getKeywords';
       var response = await http.get(Uri.parse(url), headers: headers).timeout(
-        const Duration(seconds: 5),
+        const Duration(seconds: 10),
         onTimeout: () {
           return http.Response('', html.HttpStatus.networkConnectTimeoutError);
         }
@@ -97,9 +97,9 @@ class Tab2ViewModel extends ChangeNotifier {
         'keyword': keyword.keyword ?? '',
         'search_type': keyword.searchType?.toString() ?? '1',
       };
-      var url = 'https://asia-northeast1-newbook-search.cloudfunctions.net/setKeyword';
+      var url = 'https://us-central1-newbook-search.cloudfunctions.net/setKeyword';
         var response = await http.post(Uri.parse(url), body: body, headers: headers).timeout(
-        const Duration(seconds: 5),
+        const Duration(seconds: 10),
         onTimeout: () {
           return http.Response('', html.HttpStatus.networkConnectTimeoutError);
         }
@@ -152,9 +152,9 @@ class Tab2ViewModel extends ChangeNotifier {
         'keyword': keyword.keyword ?? '',
         'search_type': keyword.searchType ?? "1",
       };
-      var url = 'https://asia-northeast1-newbook-search.cloudfunctions.net/deleteKeyword.php';
+      var url = 'https://us-central1-newbook-search.cloudfunctions.net/deleteKeyword';
       var response = await http.post(Uri.parse(url), body: body, headers: headers).timeout(
-        const Duration(seconds: 5),
+        const Duration(seconds: 10),
         onTimeout: () {
           return http.Response('', html.HttpStatus.networkConnectTimeoutError);
         }

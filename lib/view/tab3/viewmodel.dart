@@ -61,9 +61,9 @@ class Tab3ViewModel extends ChangeNotifier {
         var body = {
           'pushToken': pushToken,
         };
-        var url = 'https://asia-northeast1-newbook-search.cloudfunctions.net/setPushToken';
+        var url = 'https://us-central1-newbook-search.cloudfunctions.net/setPushToken';
         var response = await http.post(Uri.parse(url), body: body, headers: headers).timeout(
-          const Duration(seconds: 5),
+          const Duration(seconds: 10),
           onTimeout: () {
             return http.Response('', html.HttpStatus.networkConnectTimeoutError);
           }
@@ -109,9 +109,9 @@ class Tab3ViewModel extends ChangeNotifier {
         var body = {
           'pushToken': pushToken,
         };
-        var url = 'https://asia-northeast1-newbook-search.cloudfunctions.net/testPushNotification';
+        var url = 'https://us-central1-newbook-search.cloudfunctions.net/testPushNotification';
         var response = await http.post(Uri.parse(url), body: body, headers: headers).timeout(
-          const Duration(seconds: 5),
+          const Duration(seconds: 10),
           onTimeout: () {
             return http.Response('', html.HttpStatus.networkConnectTimeoutError);
           }
