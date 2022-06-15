@@ -1,0 +1,4 @@
+enum UiState {
+  idle,
+  busy,
+}
