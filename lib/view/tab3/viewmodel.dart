@@ -11,6 +11,10 @@ import 'package:universal_html/html.dart' as html;
 
 class Tab3ViewModel extends ChangeNotifier {
 
+  static const String keyNewBooks = "NewBooks";
+  static const String keyKeywords = "Keywords";
+
+
   final _eventController = StreamController<Event>();
   StreamController<Event> get eventController => _eventController;
 
@@ -34,6 +38,10 @@ class Tab3ViewModel extends ChangeNotifier {
       final FirebaseAuth auth = FirebaseAuth.instance;
       await Future.delayed(const Duration(seconds: 1));
       await auth.signOut();
+
+      var _localStorage = html.window.localStorage;
+      _localStorage.remove(keyNewBooks);
+      _localStorage.remove(keyKeywords);
       _eventController.sink.add(Event.signOut);
     } on FirebaseAuthException catch (e) {
       _infoText = e.message;

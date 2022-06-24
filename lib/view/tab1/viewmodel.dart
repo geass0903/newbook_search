@@ -9,6 +9,8 @@ import 'package:universal_html/html.dart' as html;
 
 class Tab1ViewModel extends ChangeNotifier {
 
+  static const String keyNewBooks = "NewBooks";
+
   final _eventController = StreamController<Event>();
   StreamController<Event> get eventController => _eventController;
 
@@ -28,8 +30,55 @@ class Tab1ViewModel extends ChangeNotifier {
     _eventController.close();
   }
 
+  Future<List<NewBook>> loadStorage() async {
+    var _localStorage = html.window.localStorage;
+    var newBooks = _localStorage[keyNewBooks];
+    if(newBooks != null && newBooks.isNotEmpty) {
+      var parsed = json.decode(newBooks);
+      List<NewBook> list = [];
+      for(Map<String, dynamic> json in parsed) {
+        list.add(NewBook.fromJson(json));
+      }
+      return list;
+    }
 
-  Future<void> loadNewBooks(User? user) async {
+    NewBook book = NewBook(
+      isbn: "9784757580374",
+      title: "通りがかりにワンポイントアドバイスしていくタイプのヤンキー（8）(完)",
+      author: "おつじ",
+      publisher: "スクウェア・エニックス",
+      salesDate: "2022年07月22日",
+      imageUrl: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/0374/9784757580374.gif?_ex=200x200"
+    );
+    List<NewBook> list = [];
+    list.add(book);
+    return list;
+//    return [];
+  }
+
+
+  Future<void> saveStorage(List<NewBook> newBooks) async {
+    var _localStorage = html.window.localStorage;
+    List<Map> encoder = [];
+    for (NewBook newbook in newBooks) {
+      encoder.add(newbook.toJson());
+    }
+    _localStorage[keyNewBooks] = json.encode(encoder);
+  }
+
+
+  Future<void> loadNewBooks() async {
+    _eventController.sink.add(Event.showProgress);
+    var newBooks = await loadStorage();
+    _newbookList.clear();
+    _newbookList.addAll(newBooks);
+    _newbookList.sort(((a, b) => a.compareTo(b)));
+    notifyListeners();
+    _eventController.sink.add(Event.dismissProgress);
+  }
+
+
+  Future<void> getNewBooks(User? user) async {
     _eventController.sink.add(Event.showProgress);
 
     try {
@@ -65,6 +114,7 @@ class Tab1ViewModel extends ChangeNotifier {
             _newbookList.clear();
             _newbookList.addAll(tmpListNewBook);
             _newbookList.sort(((a, b) => a.compareTo(b)));
+            saveStorage(_newbookList);
             _eventController.sink.add(Event.success);
           } else {
             _infoText = res['msg'];

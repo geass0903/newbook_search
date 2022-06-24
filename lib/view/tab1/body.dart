@@ -42,7 +42,7 @@ class _Tab1ViewBodyState extends State<Tab1ViewBody> {
         default:
       }
     });
-
+    Provider.of<Tab1ViewModel>(context, listen: false).loadNewBooks();
   }
 
   @override
@@ -118,7 +118,7 @@ class _Tab1ViewBodyState extends State<Tab1ViewBody> {
     );
     if (doUpdate) {
       var user = Provider.of<MyAppViewModel>(context, listen: false).user;
-      Provider.of<Tab1ViewModel>(context, listen: false).loadNewBooks(user);
+      Provider.of<Tab1ViewModel>(context, listen: false).getNewBooks(user);
     }
   }
 

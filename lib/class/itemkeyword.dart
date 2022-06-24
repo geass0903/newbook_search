@@ -102,6 +102,20 @@ class Keyword {
     return ky1.compareTo(ky2);
   }
 
+  factory Keyword.fromJson(Map<String, dynamic> json) {
+    return Keyword(
+      id: json['id'] as String,
+      keyword: json['keyword'] as String,
+      searchType: json['searchType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'keyword': keyword,
+    'searchType': searchType,
+  };
+
   @override
   bool operator ==(Object other) {
     return other is Keyword &&

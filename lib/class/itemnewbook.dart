@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -186,6 +187,26 @@ class NewBook {
     debugPrint(other.salesDate);
     return -dt1.compareTo(dt2);
   }
+
+  factory NewBook.fromJson(Map<String, dynamic> json) {
+    return NewBook(
+      isbn: json['isbn'] as String,
+      title: json['title'] as String,
+      author: json['author'] as String,
+      publisher: json['publisher'] as String,
+      salesDate: json['salesDate'] as String,
+      imageUrl: json['imageUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'isbn': isbn,
+    'title': title,
+    'author': author,
+    'publisher': publisher,
+    'salesDate': salesDate,
+    'imageUrl': imageUrl,
+  };
 
   @override
   bool operator ==(Object other) {

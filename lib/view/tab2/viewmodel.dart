@@ -9,6 +9,8 @@ import 'package:universal_html/html.dart' as html;
 
 class Tab2ViewModel extends ChangeNotifier {
 
+  static const String keyKeywords = "Keywords";
+
   final _eventController = StreamController<Event>();
   StreamController<Event> get eventController => _eventController;
 
@@ -31,7 +33,41 @@ class Tab2ViewModel extends ChangeNotifier {
   }
 
 
-  Future<void> loadKeywords(User? user) async {
+  Future<List<Keyword>> loadStorage() async {
+    var _localStorage = html.window.localStorage;
+    var keywords = _localStorage[keyKeywords];
+    if(keywords != null && keywords.isNotEmpty) {
+      var parsed = json.decode(keywords);
+      List<Keyword> list = [];
+      for(Map<String, dynamic> json in parsed) {
+        list.add(Keyword.fromJson(json));
+      }
+      return list;
+    }
+    return [];
+  }
+
+  Future<void> saveStorage(List<Keyword> keywords) async {
+    var _localStorage = html.window.localStorage;
+    List<Map> encoder = [];
+    for (Keyword keyword in keywords) {
+      encoder.add(keyword.toJson());
+    }
+    _localStorage[keyKeywords] = json.encode(encoder);
+  }
+
+
+  Future<void> loadKeywords() async {
+    _eventController.sink.add(Event.showProgress);
+    var keywords = await loadStorage();
+    _keywordList.clear();
+    _keywordList.addAll(keywords);
+    _keywordList.sort(((a, b) => a.compareTo(b)));
+    notifyListeners();
+    _eventController.sink.add(Event.dismissProgress);
+  }
+
+  Future<void> getKeywords(User? user) async {
     _eventController.sink.add(Event.showProgress);
     try {
       String _idToken = await user?.getIdToken(true) ?? '';
@@ -63,6 +99,7 @@ class Tab2ViewModel extends ChangeNotifier {
             _keywordList.clear();
             _keywordList.addAll(_tmpListKeyword);
             _keywordList.sort(((a, b) => a.compareTo(b)));
+            saveStorage(_keywordList);
             _eventController.sink.add(Event.success);
           } else {
             _infoText = res['msg'];

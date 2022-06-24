@@ -46,7 +46,7 @@ class _Tab2ViewBodyState extends State<Tab2ViewBody> {
         default:
       }
     });
-
+    Provider.of<Tab2ViewModel>(context, listen: false).loadKeywords();
   }
 
 
@@ -166,7 +166,7 @@ class _Tab2ViewBodyState extends State<Tab2ViewBody> {
     );
     if (doUpdate) {
       var user = Provider.of<MyAppViewModel>(context, listen: false).user;
-      Provider.of<Tab2ViewModel>(context, listen: false).loadKeywords(user);
+      Provider.of<Tab2ViewModel>(context, listen: false).getKeywords(user);
     }
   }
 
