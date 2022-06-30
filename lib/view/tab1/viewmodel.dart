@@ -35,25 +35,14 @@ class Tab1ViewModel extends ChangeNotifier {
     var newBooks = _localStorage[keyNewBooks];
     if(newBooks != null && newBooks.isNotEmpty) {
       var parsed = json.decode(newBooks);
+      debugPrint(newBooks);
       List<NewBook> list = [];
       for(Map<String, dynamic> json in parsed) {
         list.add(NewBook.fromJson(json));
       }
       return list;
     }
-
-    NewBook book = NewBook(
-      isbn: "9784757580374",
-      title: "通りがかりにワンポイントアドバイスしていくタイプのヤンキー（8）(完)",
-      author: "おつじ",
-      publisher: "スクウェア・エニックス",
-      salesDate: "2022年07月22日",
-      imageUrl: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/0374/9784757580374.gif?_ex=200x200"
-    );
-    List<NewBook> list = [];
-    list.add(book);
-    return list;
-//    return [];
+    return [];
   }
 
 
@@ -107,7 +96,8 @@ class Tab1ViewModel extends ChangeNotifier {
                 author: book["author"],
                 publisher: book["publisher"],
                 salesDate: book["sales_date"],
-                imageUrl: book["image_url"]
+                imageUrl: book["image_url"],
+                isnew: book["isnew"]
               );
               tmpListNewBook.add(newBook);
             }

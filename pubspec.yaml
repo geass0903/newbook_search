@@ -41,6 +41,8 @@ dependencies:
   provider:
   http:
   universal_html:
+  barcode: ^2.2.1
+  barcode_widget:
 
 dev_dependencies:
   flutter_test:

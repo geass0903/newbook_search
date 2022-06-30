@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newbook_search/class/detailnewbookdialog.dart';
 import 'package:newbook_search/class/dragscrollbehavior.dart';
 import 'package:newbook_search/class/itemnewbook.dart';
 import 'package:newbook_search/viewmodel.dart';
@@ -90,6 +91,7 @@ class _Tab1ViewBodyState extends State<Tab1ViewBody> {
 
   void _onTapNewBook(NewBook newBook) {
     debugPrint('onTap $newBook');
+    DetailNewBookDialog.show(context: context, barrierDismissible: true, newBook: newBook);
   }
 
   Future<void> _refreshConfirm() async{

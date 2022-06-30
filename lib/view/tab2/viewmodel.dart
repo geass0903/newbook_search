@@ -157,6 +157,7 @@ class Tab2ViewModel extends ChangeNotifier {
               _keywordList.add(newKeyword);
             }
             _keywordList.sort(((a, b) => a.compareTo(b)));
+            saveStorage(_keywordList);
             _eventController.sink.add(Event.success);
           } else {
             _infoText = res['msg'];
@@ -202,6 +203,7 @@ class Tab2ViewModel extends ChangeNotifier {
           var res = json.decode(response.body);
           if(res['result'] == 'success') {
             _keywordList.removeAt(index);
+            saveStorage(_keywordList);
             _eventController.sink.add(Event.delete);
           } else {
             _infoText = res['msg'];

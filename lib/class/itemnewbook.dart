@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -26,94 +25,50 @@ class ItemNewBook extends Container {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    'タイトル：',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    strutStyle: StrutStyle(
-                      fontSize: 14.0,
-                      height: 1.3,
-                    ),
-                    textScaleFactor: 1.0,
-                  ),
-                  Flexible(
-                    child: Text(newBook.title ?? '',
-                      style: const TextStyle(fontSize: 14.0,fontWeight: FontWeight.w500,),
-                      strutStyle: const StrutStyle(
-                        fontSize: 14.0,
-                        height: 1.3,
+              // 新刊表示
+              Builder(
+                builder: (BuildContext context) {
+                  if (newBook.isnew != null && newBook.isnew! == true) {
+                    return Container(
+                      height: 20,
+                      padding: const EdgeInsets.fromLTRB(10.0, 2.5, 10.0, 2.5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Colors.red,
                       ),
-                      maxLines: 2,
-                      textScaleFactor: 1.0,
-                    ),
-                  ),
-                ],
+                      child: const Text(
+                        "New",
+                        style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.normal, color: Colors.white),
+                      ),
+                    );
+                  }
+                  return Container();
+                },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    '著者：',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                    strutStyle: StrutStyle(
-                      fontSize: 14.0,
-                      height: 1.3,
-                    ),
-                    textScaleFactor: 1.0,
-                  ),
-                  Flexible(
-                    child: Text(newBook.author ?? '',
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                      ),
-                      strutStyle: const StrutStyle(
-                        fontSize: 14.0,
-                        height: 1.3,
-                      ),
-                      maxLines: 1,
-                      textScaleFactor: 1.0,
-                    ),
-                  ),
-                ],
+              // タイトル
+              Text(
+                'タイトル：' + (newBook.title ?? ''),
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    '発売日：',
-                    style: TextStyle(
-                      fontSize: 13.0,
-                    ),
-                    strutStyle: StrutStyle(
-                      fontSize: 14.0,
-                      height: 1.3,
-                    ),
-                    textScaleFactor: 1.0,
-                  ),
-                  Flexible(
-                    child: Text(newBook.salesDate ?? '',
-                      style: const TextStyle(
-                        fontSize: 13.0,
-                      ),
-                      strutStyle: const StrutStyle(
-                        fontSize: 14.0,
-                        height: 1.3,
-                      ),
-                      maxLines: 1,
-                      textScaleFactor: 1.0,
-                    ),
-                  ),
-                ],
+              // 著者
+              Text(
+                '著者：' + (newBook.author ?? ''),
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              // 発売日
+              Text(
+                '発売日：' + (newBook.salesDate ?? ''),
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
@@ -132,6 +87,7 @@ class NewBook {
   final String? publisher;
   final String? salesDate;
   final String? imageUrl;
+  final bool? isnew;
 
   NewBook({
     this.isbn,
@@ -140,11 +96,12 @@ class NewBook {
     this.publisher,
     this.salesDate,
     this.imageUrl,
+    this.isnew,
   });
 
   @override
   String toString() {
-    return '$isbn, $title, $author, $publisher, $salesDate';
+    return '$isbn, $title, $author, $publisher, $salesDate, $isnew';
   }
 
   String formattedDate(String salesDate) {
@@ -196,6 +153,7 @@ class NewBook {
       publisher: json['publisher'] as String,
       salesDate: json['salesDate'] as String,
       imageUrl: json['imageUrl'] as String,
+      isnew: (json['isnew']? json['isnew'] : false) as bool,
     );
   }
 
@@ -206,6 +164,7 @@ class NewBook {
     'publisher': publisher,
     'salesDate': salesDate,
     'imageUrl': imageUrl,
+    'isnew': isnew,
   };
 
   @override
@@ -216,13 +175,14 @@ class NewBook {
         author == other.author &&
         publisher == other.publisher &&
         salesDate == other.salesDate &&
-        imageUrl == other.imageUrl
+        imageUrl == other.imageUrl &&
+        isnew == other.isnew
     ;
   }
 
   @override
   int get hashCode =>
       isbn.hashCode ^ title.hashCode ^ author.hashCode ^ publisher
-          .hashCode ^ salesDate.hashCode ^ imageUrl.hashCode;
+          .hashCode ^ salesDate.hashCode ^ imageUrl.hashCode ^ isnew.hashCode;
 
 }
